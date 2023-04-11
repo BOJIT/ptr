@@ -61,14 +61,21 @@ export const actions: Actions = {
     default: async (event) => {
 
         const names = await randomNames();
+        const contacts = names.sort(() => Math.random() - 0.5);
 
-        names.forEach((n: string) => {
+        for (let i = 0; i < names.length; i++) {
+            const now = new Date();
+            const then = new Date();
+            then.setDate(now.getDate() + 21);
+            const ooo = getRandomDate(now, then)
+
+            // Don't await promise: sends in parallel
             sendEmail(
                 "noreply@bojit.org",
-                n,
+                names[i],
                 "Automatic Reply: Out of Office till xxxx",
-                "Hi, I'm out of office until xxxx. Please contact yyyy for enquirys",
+                `Hi, I'm out of office until ${ooo.toLocaleDateString()}. Please contact ${contacts[i]} for enquirys`,
             );
-        });
+        }
     }
 } satisfies Actions;
