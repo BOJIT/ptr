@@ -8,21 +8,21 @@
  *
 -->
 
-<script lang='ts'>
+<script lang="ts">
     /*-------------------------------- Imports -------------------------------*/
 
-    import { page } from '$app/stores';
+    import { page } from "$app/stores";
 
+    import logo from "$lib/img/bojcenter.png";
 </script>
 
-
 <div class="error">
+    <img src={logo} alt="bojcenter" />
     <h1>{$page.status}</h1>
     {#if $page.error !== null}
         <h3>{$page.error.message}</h3>
     {/if}
 </div>
-
 
 <style>
     .error {
