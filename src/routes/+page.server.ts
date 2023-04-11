@@ -48,7 +48,7 @@ async function randomNames(): Promise<string[]> {
     let url = "https://en.wikipedia.org/w/api.php";
 
     // Timestamp used for range selection
-    const random = getRandomDate(new Date('1999-02-12T01:57:45.271Z'), new Date('2022-02-12T01:57:45.271Z'))
+    const random = getRandomDate(new Date('2006-02-12T01:57:45.271Z'), new Date('2022-02-12T01:57:45.271Z'))
 
     const params: { [key: string]: string } = {
         action: "query",
@@ -63,8 +63,6 @@ async function randomNames(): Promise<string[]> {
     url = url + "?origin=*";
     Object.keys(params).forEach(function (key) { url += "&" + key + "=" + params[key]; });
 
-    console.log(url);
-
     const response = await fetch(url);
     const payload = await response.json();
 
@@ -77,13 +75,15 @@ async function randomNames(): Promise<string[]> {
 
 export const actions: Actions = {
     default: async (event) => {
+        const data = await event.request.formData();
+        const name = data.get('name');
+        const email = data.get('email');
+
+        // TODO probably do some form of server-side validation!
 
         const names = await randomNames();
         const contacts = [...names];
         randomShuffle(contacts);
-
-        console.log(names)
-        console.log(contacts)
 
         for (let i = 0; i < names.length; i++) {
             const now = new Date();
@@ -91,14 +91,12 @@ export const actions: Actions = {
             then.setDate(now.getDate() + 21);
             const ooo = getRandomDate(now, then)
 
-            console.log(names[i])
-
             // Don't await promise: sends in parallel
             sendEmail(
-                "noreply@bojit.org",
+                email,
                 names[i],
                 `Automatic Reply: Out of Office till ${ooo.toLocaleDateString()}`,
-                `Hi, I'm out of office until ${ooo.toLocaleDateString()}. Please contact ${contacts[i]} for enquirys`,
+                `Hi ${name}, I'm out of office until ${ooo.toLocaleDateString()}. Please contact ${contacts[i]} for enquirys`,
             );
         }
     }
