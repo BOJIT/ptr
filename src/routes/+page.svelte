@@ -15,11 +15,16 @@
     import { applyAction, deserialize } from "$app/forms";
 
     import { message } from "@bojit/svelte-components/core";
-    import { Button } from "@bojit/svelte-components/smelte";
     import { Content } from "@bojit/svelte-components/layout";
     import { Tabs } from "@bojit/svelte-components/widgets";
 
     import logo from "$lib/img/bojcenter.png";
+
+    import Stage1 from "$lib/components/Stage1.svelte";
+    import Stage2 from "$lib/components/Stage2.svelte";
+    import Stage3 from "$lib/components/Stage3.svelte";
+    import Stage4 from "$lib/components/Stage4.svelte";
+    import Stage5 from "$lib/components/Stage5.svelte";
 
     /*--------------------------------- Props --------------------------------*/
 
@@ -67,18 +72,35 @@
 
     <Tabs
         tabs={[
-            {
-                label: "Stage 1",
-            },
-            {
-                label: "Stage 2",
-            },
+            { label: "Stage 1" },
+            { label: "Stage 2" },
+            { label: "Stage 3" },
+            { label: "Stage 4" },
+            { label: "Stage 5" },
         ]}
-    />
+    >
+        <div class="tab">
+            <Stage1 />
+        </div>
 
-    <form method="POST" on:submit|preventDefault={handleSubmit}>
-        <Button type="submit">Submit</Button>
-    </form>
+        <div class="tab">
+            <Stage2 />
+        </div>
+
+        <div class="tab">
+            <Stage3 />
+        </div>
+
+        <div class="tab">
+            <Stage4 />
+        </div>
+
+        <div class="tab">
+            <form method="POST" on:submit|preventDefault={handleSubmit}>
+                <Stage5 />
+            </form>
+        </div>
+    </Tabs>
 </Content>
 
 <style>
