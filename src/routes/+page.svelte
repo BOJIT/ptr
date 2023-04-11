@@ -11,9 +11,10 @@
 <script lang="ts">
     /*-------------------------------- Imports -------------------------------*/
 
-    import { invalidateAll, goto } from "$app/navigation";
+    import { invalidateAll } from "$app/navigation";
     import { applyAction, deserialize } from "$app/forms";
 
+    import { message } from "@bojit/svelte-components/core";
     import { Button } from "@bojit/svelte-components/smelte";
     import { Content } from "@bojit/svelte-components/layout";
     import { Tabs } from "@bojit/svelte-components/widgets";
@@ -40,6 +41,13 @@
         }
 
         applyAction(result);
+
+        message.push({
+            type: "info",
+            title: "PTR Submitted",
+            message: "PTR submitted to workflow",
+            timeout: 10,
+        });
     }
 
     /*------------------------------- Lifecycle ------------------------------*/
@@ -88,9 +96,25 @@
         font-size: 6rem;
     }
 
-    img {
+    .brand img {
         margin: 0px !important;
         height: 6rem;
         width: 7rem;
+    }
+
+    @media (max-width: 768px) {
+        .brand {
+            height: 4rem;
+        }
+
+        .brand h1 {
+            padding-top: 0rem;
+            font-size: 3rem;
+        }
+
+        .brand img {
+            height: 2.8rem;
+            width: 3.4rem;
+        }
     }
 </style>

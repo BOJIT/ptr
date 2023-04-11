@@ -20,6 +20,24 @@ import { sendEmail } from "$lib/email";
 
 /*------------------------------- Functions ----------------------------------*/
 
+function randomShuffle(array: string[]) {
+    let currentIndex = array.length, randomIndex;
+
+    // While there remain elements to shuffle.
+    while (currentIndex != 0) {
+
+        // Pick a remaining element.
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+
+        // And swap it with the current element.
+        [array[currentIndex], array[randomIndex]] = [
+            array[randomIndex], array[currentIndex]];
+    }
+
+    return array;
+}
+
 function getRandomDate(from: Date, to: Date) {
     const fromTime = from.getTime();
     const toTime = to.getTime();
@@ -61,7 +79,11 @@ export const actions: Actions = {
     default: async (event) => {
 
         const names = await randomNames();
-        const contacts = names.sort(() => Math.random() - 0.5);
+        const contacts = [...names];
+        randomShuffle(contacts);
+
+        console.log(names)
+        console.log(contacts)
 
         for (let i = 0; i < names.length; i++) {
             const now = new Date();
@@ -69,11 +91,13 @@ export const actions: Actions = {
             then.setDate(now.getDate() + 21);
             const ooo = getRandomDate(now, then)
 
+            console.log(names[i])
+
             // Don't await promise: sends in parallel
             sendEmail(
                 "noreply@bojit.org",
                 names[i],
-                "Automatic Reply: Out of Office till xxxx",
+                `Automatic Reply: Out of Office till ${ooo.toLocaleDateString()}`,
                 `Hi, I'm out of office until ${ooo.toLocaleDateString()}. Please contact ${contacts[i]} for enquirys`,
             );
         }
