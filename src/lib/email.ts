@@ -24,7 +24,9 @@ import { dev } from "$app/environment";
  * @param subject
  * @param body
  */
-export async function sendEmail(to: string, subject: string, body: string) {
+export async function sendEmail(to: string, from: string, subject: string, body: string) {
+    let fromAddress = from.replace(/[^a-zA-Z0-9]/g, '.');
+
     const request = new Request("https://api.mailchannels.net/tx/v1/send", {
         method: "POST",
         headers: {
@@ -37,8 +39,8 @@ export async function sendEmail(to: string, subject: string, body: string) {
                 }
             ],
             from: {
-                email: "test@bojit.org",
-                name: "test user"
+                email: fromAddress.concat("@bojit.org"),
+                name: from
             },
             subject,
             content: [

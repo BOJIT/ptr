@@ -20,17 +20,13 @@ import { sendEmail } from "$lib/email";
 
 /*------------------------------- Functions ----------------------------------*/
 
-const generateRandomDOB = (): string => {
-
-}
-
 function getRandomDate(from: Date, to: Date) {
     const fromTime = from.getTime();
     const toTime = to.getTime();
     return new Date(fromTime + Math.random() * (toTime - fromTime));
 }
 
-async function randomName() {
+async function randomNames(): Promise<string[]> {
     let url = "https://en.wikipedia.org/w/api.php";
 
     // Timestamp used for range selection
@@ -55,7 +51,8 @@ async function randomName() {
     const payload = await response.json();
 
     let names = payload.query.categorymembers.map((c: any) => { return c.title });
-    console.log(names);
+
+    return names;
 }
 
 /*-------------------------------- Exports -----------------------------------*/
@@ -63,13 +60,15 @@ async function randomName() {
 export const actions: Actions = {
     default: async (event) => {
 
-        randomName();
+        const names = await randomNames();
 
-        sendEmail(
-            "noreply@bojit.org",
-            "Reset Password",
-            "TEST MESSAGE",
-        );
-
+        names.forEach((n: string) => {
+            sendEmail(
+                "noreply@bojit.org",
+                n,
+                "Automatic Reply: Out of Office till xxxx",
+                "Hi, I'm out of office until xxxx. Please contact yyyy for enquirys",
+            );
+        });
     }
 } satisfies Actions;
