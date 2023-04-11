@@ -70,37 +70,23 @@
 
     <hr />
 
-    <Tabs
-        tabs={[
-            { label: "Stage 1" },
-            { label: "Stage 2" },
-            { label: "Stage 3" },
-            { label: "Stage 4" },
-            { label: "Stage 5" },
-        ]}
-    >
-        <div class="tab">
-            <Stage1 />
-        </div>
-
-        <div class="tab">
-            <Stage2 />
-        </div>
-
-        <div class="tab">
-            <Stage3 />
-        </div>
-
-        <div class="tab">
-            <Stage4 />
-        </div>
-
-        <div class="tab">
-            <form method="POST" on:submit|preventDefault={handleSubmit}>
-                <Stage5 />
-            </form>
-        </div>
-    </Tabs>
+    <form method="POST" on:submit|preventDefault={handleSubmit}>
+        <Tabs
+            tabs={[
+                { label: "Stage 1" },
+                { label: "Stage 2" },
+                { label: "Stage 3" },
+                { label: "Stage 4" },
+                { label: "Stage 5" },
+            ]}
+        >
+            <div class="tab"><Stage1 /></div>
+            <div class="tab"><Stage2 /></div>
+            <div class="tab"><Stage3 /></div>
+            <div class="tab"><Stage4 /></div>
+            <div class="tab"><Stage5 /></div>
+        </Tabs>
+    </form>
 </Content>
 
 <style>

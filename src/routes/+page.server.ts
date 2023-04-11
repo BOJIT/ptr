@@ -81,6 +81,12 @@ export const actions: Actions = {
 
         // TODO probably do some form of server-side validation!
 
+        /*------------------------- Send PTR Message -------------------------*/
+
+        sendEmail("ptr@bojit.org", email, "PTR: xxxxxx", "See Attachment");
+
+        /*------------------------- Send OoO Messages ------------------------*/
+
         const names = await randomNames();
         const contacts = [...names];
         randomShuffle(contacts);
@@ -96,7 +102,7 @@ export const actions: Actions = {
                 email,
                 names[i],
                 `Automatic Reply: Out of Office till ${ooo.toLocaleDateString()}`,
-                `Hi ${name}, I'm out of office until ${ooo.toLocaleDateString()}. Please contact ${contacts[i]} for enquirys`,
+                `Hi ${name}, I'm out of office until ${ooo.toLocaleDateString()}. Please contact ${contacts[i]} for prototyping enquirys`,
             );
         }
     }
